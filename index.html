@@ -1,0 +1,102 @@
+<html ng-app="meuModulo">
+
+<head>
+    <meta charset="utf-8">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Angular JS</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+
+<body ng-controller="indexController">
+    <header class="container">
+        <h4>{{titulo}}</h4>
+        <h4 ng-bind="titulo"></h4>
+    </header>
+    <main class="container">
+        <div class="row">
+            <!-- filtrar apenas um atributo
+            <input type="text" ng-model="busca.nome" placeholder="Busca"/> -->
+            <input type="text" ng-model="busca" placeholder="Busca" />
+        </div>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Nota1</th>
+                    <th>Nota2</th>
+                    <th>Nota3</th>
+                    <th>Média</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="aluno in alunos | filter: busca">
+                    <!-- <td>Gui</td>
+                                <td>gui@email.com</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>5</td> -->
+                    <td>{{aluno.nome}}</td>
+                    <td>{{aluno.email}}</td>
+                    <td>{{aluno.nota1}}</td>
+                    <td>{{aluno.nota2}}</td>
+                    <td>{{aluno.nota3}}</td>
+                    <td>{{aluno.media}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module("meuModulo", [])
+            .controller("indexController", function ($scope) {
+                $scope.titulo = "Hello World! - Sistema com Angular JS";
+                $scope.alunos = [
+                    { nome: "Camila", email: "camila@email.com", nota1: 50, nota2: 60, nota3: 70 },
+                    { nome: "Pedro", email: "pedro@email.com", nota1: 51, nota2: 61, nota3: 71 },
+                    { nome: "Murilo", email: "murilo@email.com", nota1: 52, nota2: 62, nota3: 72 },
+                    { nome: "Joao", email: "joao@email.com", nota1: 53, nota2: 63, nota3: 73 },
+                    { nome: "Ana", email: "ana@email.com", nota1: 54, nota2: 64, nota3: 74 }
+                ];
+
+                var init = function () {
+                    $scope.alunos.forEach(aluno => {
+                        aluno.media = media(aluno);
+                    });
+                };
+
+                var media = function (aluno) {
+                    return ((aluno.nota1 + aluno.nota2 + aluno.nota3) / 3).toFixed(2);
+                };
+
+                init();
+                //recomendavel usar ini para carregar lista grandes apenas uma vez,
+                //nao e recomendavel carregar a mesma atraves do lanço de repeticao
+                //melhorndo assim o desempenho da aplicacao
+                //aula: 6. Desempenho da Aplicação
+
+                //funcao acessada apenas no controller
+                // var nome = function () {
+
+                // };
+
+                // var contar = 0;
+                // $scope.media = function (aluno) {
+                //     console.log(contar++);
+                //     return ((aluno.nota1 + aluno.nota2 + aluno.nota3) / 3).toFixed(2);
+                // };
+
+            })
+    </script>
+</body>
+
+</html>

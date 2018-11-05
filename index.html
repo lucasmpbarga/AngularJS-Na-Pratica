@@ -50,12 +50,59 @@
                 </tr>
             </tbody>
         </table>
+        <div class="row">
+            <!-- Modal Trigger -->
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Adicionar</a>
+        </div>
     </main>
 
 
-    <!-- Compiled and minified JavaScript -->
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Adicionar aluno</h4>
+            <p>Preencha os dados do Aluno</p>
+            <div class="row">
+                {{aluno}}
+                <div class="input-field col m6 s12">
+                    <input type="text" ng-model="aluno.nome" class="validate">
+                    <label>Nome</label>
+                </div>
+                <div class="input-field col m6 s12">
+                    <input type="text" ng-model="aluno.email" class="validate">
+                    <label>E-mail</label>
+                </div>
+                <div class="input-field col m4 s12">
+                    <input type="text" ng-model="aluno.nota1" class="validate">
+                    <label>Nota 1</label>
+                </div>
+                <div class="input-field col m4 s12">
+                    <input type="text" ng-model="aluno.nota2" class="validate">
+                    <label>Nota 2</label>
+                </div>
+                <div class="input-field col m4 s12">
+                    <input type="text" ng-model="aluno.nota3" class="validate">
+                    <label>Nota 3</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
+            <a ng-click="addAluno(aluno)" class="waves-effect waves-green btn-flat blue">Adicionar</a>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+
     <script type="text/javascript">
         angular.module("meuModulo", [])
             .controller("indexController", function ($scope) {
@@ -75,7 +122,14 @@
                 };
 
                 var media = function (aluno) {
-                    return ((aluno.nota1 + aluno.nota2 + aluno.nota3) / 3).toFixed(2);
+                    return ((parseFloat(aluno.nota1) + parseFloat(aluno.nota2) + parseFloat(aluno.nota3)) / 3).toFixed(2);
+                };
+
+                $scope.addAluno = function (aluno) {
+                    aluno.media = media(aluno);
+                    $scope.alunos.push(aluno);
+                    $('.modal').modal('close');
+                    $scope.aluno = { nome: "", email: "", nota1: "", nota2: "", nota3: "", media: "" };
                 };
 
                 init();
